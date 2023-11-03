@@ -6,7 +6,7 @@ import com.uttam.project.DTO.User;
 
 public interface UserService {
 	User createUser(User user);
-	User updateUser(User user);
+	User updateUser(Integer userId, User user);
 	String deleteUser(Integer userId);
 	User getUser(Integer userId);
 	List<User> getAllUsers();

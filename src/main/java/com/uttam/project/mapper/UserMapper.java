@@ -1,8 +1,10 @@
 package com.uttam.project.mapper;
 
+import static java.util.Objects.isNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.uttam.project.DTO.Account;
@@ -10,8 +12,14 @@ import com.uttam.project.DTO.User;
 import com.uttam.project.model.AccountDO;
 import com.uttam.project.model.UserDO;
 
+import lombok.Setter;
+
 @Component
 public class UserMapper {
+	
+	@Autowired
+	@Setter
+	AccountMapper accountMapper;
 
 	
 	public List<User> userDOtoDTO(List<UserDO> userDOList) {
@@ -26,16 +34,9 @@ public class UserMapper {
 					.firstName(userDO.getFirstName())
 					.lastName(userDO.getLastName())
 					.build();
-			List<AccountDO> accountDOs = userDO.getAccounts();
-			List<Account> accountList =  new ArrayList<>();
-			for(AccountDO accountDO : accountDOs) {
-				Account account = Account.builder()
-						.accountId(accountDO.getAccountId())
-						.userName(accountDO.getUserName())
-						.password(accountDO.getPassword())
-						.build();
-				accountList.add(account);				
-			}
+			
+			List<Account> accountList = isNull(userDO.getAccounts())? new ArrayList<>(): accountMapper.accountDOtoDTO(userDO.getAccounts());
+			
 			user.setAccounts(accountList);
 			userDTOList.add(user);
 		}
@@ -54,15 +55,8 @@ public class UserMapper {
 					.age(user.getAge())
 					.email(user.getEmail())
 					.build();
-			List<Account> accounts = user.getAccounts();
-			List<AccountDO> accountDOList =  new ArrayList<>();
-			for(Account account : accounts) {
-				AccountDO accountDO = AccountDO.builder()
-						.userName(account.getUserName())
-						.password(account.getPassword())
-						.build();
-				accountDOList.add(accountDO);				
-			}
+			List<AccountDO> accountDOList =  isNull(user.getAccounts())? new ArrayList<>() : accountMapper.accountDTOtoDO(user.getAccounts());
+	
 			userDO.setAccounts(accountDOList);
 			userDOList.add(userDO);
 		}

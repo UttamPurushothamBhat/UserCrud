@@ -44,9 +44,9 @@ class UserController {
 		return userServiceImpl.createUser(user);
 	}
 	
-	@PutMapping("")
-	public User updateUser(@RequestBody User user) {
-		return userServiceImpl.updateUser(user);
+	@PutMapping("/{id}")
+	public User updateUser(@PathVariable("id") Integer userId, @RequestBody User user) {
+		return userServiceImpl.updateUser(userId, user);
 	}
 	
 	@DeleteMapping("/{id}")

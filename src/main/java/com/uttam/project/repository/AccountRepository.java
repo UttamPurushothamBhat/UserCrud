@@ -7,3 +7,4 @@ import com.uttam.project.model.AccountDO;
 public interface AccountRepository extends JpaRepository<AccountDO, Integer> {
 
 }
+ 
