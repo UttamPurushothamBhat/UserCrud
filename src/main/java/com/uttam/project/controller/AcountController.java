@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uttam.project.DTO.Account;
 import com.uttam.project.service.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Setter;
 
 @Component
@@ -23,6 +24,8 @@ public class AcountController {
 	AccountService accountServiceImpl;
 	
 	@PostMapping("/{id}")
+	@Operation(summary = "Create Account",
+    description = "Create a new account for given user")
 	public Account createUser(@PathVariable("id") Integer userId,@RequestBody Account account) {
 		return accountServiceImpl.registerAccount(userId, account);
 	}
