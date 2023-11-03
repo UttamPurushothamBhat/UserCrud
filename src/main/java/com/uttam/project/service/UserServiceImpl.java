@@ -1,11 +1,14 @@
 package com.uttam.project.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uttam.project.model.User;
+import com.uttam.project.DTO.User;
+import com.uttam.project.mapper.UserMapper;
+import com.uttam.project.model.UserDO;
 import com.uttam.project.repository.UserRepository;
 
 import lombok.Setter;
@@ -16,18 +19,29 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Setter
 	UserRepository userRepository;
+	
+	
+	@Autowired
+	@Setter
+	UserMapper userMapper;
 
 	@Override
 	public User createUser(User user) {
-		return userRepository.save(user);
+		UserDO userDO = userMapper.userDTOtoDO(Arrays.asList(user)).get(0);
+		userDO = userRepository.save(userDO);
+		
+		User savedUser = userMapper.userDOtoDTO(Arrays.asList(userDO)).get(0);
+		return savedUser;
 		 
 	}
 
 	@Override
 	public User updateUser(User user) {
-		 return userRepository.save(user);
-		 
+		UserDO userDO = userMapper.userDTOtoDO(Arrays.asList(user)).get(0);
+		userDO = userRepository.save(userDO);
 		
+		User savedUser = userMapper.userDOtoDTO(Arrays.asList(userDO)).get(0);
+		return savedUser;
 	}
 
 	@Override
@@ -38,28 +52,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(Integer userId) {
-		if(userRepository.findById(userId).isEmpty()) {
-			return new User();
-		}
-		else {
-			return userRepository.findById(userId).get();
-			}
+		UserDO userDO = userRepository.findById(userId).get();
+		User user =  userMapper.userDOtoDTO(Arrays.asList(userDO)).get(0);
+		return user;
+		
 	}
 
 	@Override
 	public List<User> getAllUsers() {
-		return userRepository.findAll();
+		List<UserDO> userDOs = userRepository.findAll(); 
+		return userMapper.userDOtoDTO(userDOs);
 	}
 
 
 	@Override
 	public List<User> getUsersByFirstName(String firstName) {
-		return userRepository.getUsersByFirstName(firstName);
+		List<UserDO> userDOs = userRepository.getUsersByFirstName(firstName);
+		return userMapper.userDOtoDTO(userDOs);
 	}
 
 	@Override
 	public List<User> getUsersByLastName(String lastName) {
-		return userRepository.getUsersByLastName(lastName);
+		List<UserDO> userDOs = userRepository.getUsersByLastName(lastName);
+		return userMapper.userDOtoDTO(userDOs);
 	}
 
 }

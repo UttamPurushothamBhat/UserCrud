@@ -6,15 +6,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.uttam.project.model.User;
+import com.uttam.project.model.UserDO;
+import com.uttam.project.model.UserDO;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-	@Query("SELECT u FROM User u WHERE u.firstName = :firstName")
-	List<User> getUsersByFirstName(@Param ("firstName") String firstName);
+@Transactional
+public interface UserRepository extends JpaRepository<UserDO, Integer> {
+	@Query("SELECT u FROM UserDO u WHERE u.firstName = :firstName")
+	List<UserDO> getUsersByFirstName(@Param ("firstName") String firstName);
 	
 	
-	List<User> getUsersByLastName(@Param ("lastName")String lastName);
+	List<UserDO> getUsersByLastName(@Param ("lastName")String lastName);
 
+	
 }
