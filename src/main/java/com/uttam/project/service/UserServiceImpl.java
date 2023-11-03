@@ -2,12 +2,15 @@ package com.uttam.project.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uttam.project.DTO.User;
+import com.uttam.project.exception.UserNotFoundException;
 import com.uttam.project.mapper.UserMapper;
+import com.uttam.project.model.AccountDO;
 import com.uttam.project.model.UserDO;
 import com.uttam.project.repository.UserRepository;
 
@@ -36,11 +39,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User user) {
-		UserDO userDO = userMapper.userDTOtoDO(Arrays.asList(user)).get(0);
-		userDO = userRepository.save(userDO);
+	public User updateUser(Integer userId, User user) {
+		//Check if user exists
+		Optional<UserDO> userDO = userRepository.findById(userId);
+		if(userDO.isEmpty()) {
+			throw new UserNotFoundException("no user by id "+ userId);
+		}
 		
-		User savedUser = userMapper.userDOtoDTO(Arrays.asList(userDO)).get(0);
+		List<AccountDO> accountDO = userDO.get().getAccounts();
+		
+		UserDO updatedUserDO = userMapper.userDTOtoDO(Arrays.asList(user)).get(0);
+		updatedUserDO.setUserId(userId);
+		updatedUserDO.setAccounts(accountDO);
+		updatedUserDO = userRepository.save(updatedUserDO);
+		
+		User savedUser = userMapper.userDOtoDTO(Arrays.asList(updatedUserDO)).get(0);
 		return savedUser;
 	}
 
@@ -52,8 +65,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(Integer userId) {
-		UserDO userDO = userRepository.findById(userId).get();
-		User user =  userMapper.userDOtoDTO(Arrays.asList(userDO)).get(0);
+		Optional<UserDO> userDO = userRepository.findById(userId);
+		if(userDO.isEmpty()) {
+			throw new UserNotFoundException("no user by id "+ userId);
+		}
+		User user =  userMapper.userDOtoDTO(Arrays.asList(userDO.get())).get(0);
 		return user;
 		
 	}

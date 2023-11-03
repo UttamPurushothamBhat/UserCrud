@@ -1,5 +1,7 @@
 package com.uttam.project.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -18,6 +22,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountDO {
 	
 	@Id
@@ -29,7 +35,7 @@ public class AccountDO {
 	@JoinColumn(name ="user_id")
 	private UserDO userDO;
 	
-	@Column(name = "user_name", unique = true, nullable = false)	
+	@Column(name = "user_name", unique = true)	
 	private String userName;
 	
 	@Column(name = "password")

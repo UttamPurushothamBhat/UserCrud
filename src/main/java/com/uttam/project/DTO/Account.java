@@ -12,8 +12,12 @@ public class Account {
 	
 	private Integer accountId;
 	
+	private Integer userId;
+	
 	private String userName;
 	
 	private String password;
+	
+	
 
 }
