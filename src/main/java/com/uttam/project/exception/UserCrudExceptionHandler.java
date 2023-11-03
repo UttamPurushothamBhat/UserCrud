@@ -18,4 +18,16 @@ public class UserCrudExceptionHandler {
 		return new ResponseEntity<>(userCrudException, HttpStatus.NOT_FOUND);
 		
 	}
+	
+	
+	@ExceptionHandler(value = {RuntimeException.class})
+	public ResponseEntity<Object> handleRuntimeException(RuntimeException runtimeException){
+		UserCrudException userCrudException =UserCrudException.builder()
+				.message(runtimeException.getMessage())
+				.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.build();
+		
+		return new ResponseEntity<>(userCrudException, HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
 }
