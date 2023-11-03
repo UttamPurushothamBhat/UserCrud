@@ -17,12 +17,29 @@ import com.uttam.project.DTO.User;
 import com.uttam.project.model.UserDO;
 import com.uttam.project.service.UserService;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import lombok.Setter;
 
 
 //author uttamBhat
 @RestController
 @RequestMapping("/user")
+@OpenAPIDefinition (info =
+ @Info(
+          title = "User Account registration",
+          version = "1.0",
+          description = "UserCrud API",
+          license = @License(name = "UserCrud License", url = "http://userCrud"),
+          contact = @Contact(url = "https://www.linkedin.com/in/uttam-bhat/", name = "Uttam Bhat", email = "ub@gmail.com")
+  )
+)
 class UserController {
 	
 	@Autowired
@@ -30,37 +47,50 @@ class UserController {
 	UserService userServiceImpl;
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Get user",
+    description = "Get specific user")
 	public User getUser(@PathVariable("id") Integer userId) {
 		return userServiceImpl.getUser(userId);
 	}
 	
 	@GetMapping("")
+	@Operation(summary = "Get users",
+    description = "Get list of users")
 	public List<User>getAllUsers() {
 		return userServiceImpl.getAllUsers();
 	}
 
 	@PostMapping("")
+	@Operation(summary = "create user",
+    description = "create a user with provided details")
 	public User createUser(@RequestBody User user) {
 		return userServiceImpl.createUser(user);
 	}
 	
 	@PutMapping("/{id}")
+	@Operation(summary = "update user",
+    description = "update user detail for given id")
 	public User updateUser(@PathVariable("id") Integer userId, @RequestBody User user) {
 		return userServiceImpl.updateUser(userId, user);
 	}
 	
 	@DeleteMapping("/{id}")
+	@Operation(summary = "delete user",
+    description = "delete the given user")
+	@ApiResponse(responseCode = "200", description = "user deteled")
+    @ApiResponse(responseCode = "400", description = "Invalid username supplied")
+    @ApiResponse(responseCode = "404", description = "User not found")
 	public String deleteUser(@PathVariable("id") Integer userId) {
 		return userServiceImpl.deleteUser(userId);
 	}
 	
 	@GetMapping(params = {"lastName"})
-	public List<User> getUsersByLastName(@RequestParam String lastName) {
+	public List<User> getUsersByLastName( @Parameter(description = "lastName mactching", required = true) @RequestParam String lastName) {
 		 return userServiceImpl.getUsersByLastName(lastName);
 	}
 	
 	@GetMapping(params ="firstName")
-	public List<User> getUsersByFirstName(@RequestParam String firstName) {
+	public List<User> getUsersByFirstName( @Parameter(description = "firstname matching", required = true) @RequestParam String firstName) {
 		 return userServiceImpl.getUsersByFirstName(firstName);
 	}
 	
