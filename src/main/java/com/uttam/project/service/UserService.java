@@ -2,7 +2,7 @@ package com.uttam.project.service;
 
 import java.util.List;
 
-import com.uttam.project.model.User;
+import com.uttam.project.DTO.User;
 
 public interface UserService {
 	User createUser(User user);
