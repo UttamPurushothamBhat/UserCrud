@@ -15,8 +15,10 @@ import com.uttam.project.model.UserDO;
 import com.uttam.project.repository.UserRepository;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(Integer userId, User user) {
-		//Check if user exists
+		log.info("check if user with id: {} exists", userId);
 		Optional<UserDO> userDO = userRepository.findById(userId);
 		if(userDO.isEmpty()) {
 			throw new UserNotFoundException("no user by id "+ userId);
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		List<AccountDO> accountDO = userDO.get().getAccounts();
 		
 		UserDO updatedUserDO = userMapper.userDTOtoDO(Arrays.asList(user)).get(0);
+		log.info("set userid and accounts back to this updated user" );
 		updatedUserDO.setUserId(userId);
 		updatedUserDO.setAccounts(accountDO);
 		updatedUserDO = userRepository.save(updatedUserDO);
@@ -67,6 +70,7 @@ public class UserServiceImpl implements UserService {
 	public User getUser(Integer userId) {
 		Optional<UserDO> userDO = userRepository.findById(userId);
 		if(userDO.isEmpty()) {
+			log.error("user with id {} not found", userId);
 			throw new UserNotFoundException("no user by id "+ userId);
 		}
 		User user =  userMapper.userDOtoDTO(Arrays.asList(userDO.get())).get(0);

@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 
 //author uttamBhat
@@ -40,6 +41,7 @@ import lombok.Setter;
           contact = @Contact(url = "https://www.linkedin.com/in/uttam-bhat/", name = "Uttam Bhat", email = "ub@gmail.com")
   )
 )
+@Slf4j
 class UserController {
 	
 	@Autowired
@@ -57,6 +59,7 @@ class UserController {
 	@Operation(summary = "Get users",
     description = "Get list of users")
 	public List<User>getAllUsers() {
+		log.info("looking for users");
 		return userServiceImpl.getAllUsers();
 	}
 

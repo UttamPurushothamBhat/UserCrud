@@ -10,3 +10,18 @@ spring:
 
 #JPA Settings
   jpa.hibernate.ddl_auto: create
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "caches"
+      base-path: "/productionDashboard"
+  endpoint:
+    health:
+      show-details: always
+      
+logging:
+  level:
+   com.uttam.project: DEBUG
