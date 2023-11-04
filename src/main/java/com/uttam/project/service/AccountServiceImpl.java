@@ -40,12 +40,12 @@ public class AccountServiceImpl implements AccountService {
 			throw new UserNotFoundException("no user by id "+ userId);
 		}
 		
-		AccountDO accountDO = accountMapper.accountDTOtoDO(Arrays.asList(account)).get(0);
+		AccountDO accountDO = accountMapper.accountDTOtoDO(account);
 		accountDO.setUserDO(userDO.get());
 		
 		accountDO = accountRepository.save(accountDO);
 		
-		Account savedAccount = accountMapper.accountDOtoDTO(Arrays.asList(accountDO)).get(0);
+		Account savedAccount = accountMapper.accountDOtoDTO(accountDO);
 		
 		return savedAccount;
 	}

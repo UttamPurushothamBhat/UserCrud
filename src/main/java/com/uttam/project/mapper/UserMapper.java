@@ -1,8 +1,9 @@
 package com.uttam.project.mapper;
 
-import static java.util.Objects.isNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import static java.util.Objects.isNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,9 @@ public class UserMapper {
 	AccountMapper accountMapper;
 
 	
-	public List<User> userDOtoDTO(List<UserDO> userDOList) {
-		List<User> userDTOList = new ArrayList<>();
+	public User userDOtoDTO(UserDO userDO) {
+		if(isNull(userDO))return null;
 		
-		for(UserDO userDO : userDOList) {
 			User user = User.builder()
 					.userId(userDO.getUserId())
 					.address(userDO.getAddress())
@@ -35,19 +35,16 @@ public class UserMapper {
 					.lastName(userDO.getLastName())
 					.build();
 			
-			List<Account> accountList = isNull(userDO.getAccounts())? new ArrayList<>(): accountMapper.accountDOtoDTO(userDO.getAccounts());
-			
+			List<Account> accountList = isNull(userDO.getAccounts())? new ArrayList<>() : userDO.getAccounts().stream()
+																		 					  .map(u->accountMapper.accountDOtoDTO(u))
+																		 					  .collect(Collectors.toList());
 			user.setAccounts(accountList);
-			userDTOList.add(user);
-		}
-		return userDTOList;
+			return user;
 		
 	}
 	
-	public List<UserDO> userDTOtoDO(List<User> userList) {
-		List<UserDO> userDOList = new ArrayList<>();
-		
-		for(User user : userList) {
+	public UserDO userDTOtoDO(User user) {
+			if(isNull(user))return null;
 			UserDO userDO = UserDO.builder()
 					.firstName(user.getFirstName())
 					.lastName(user.getLastName())
@@ -55,11 +52,11 @@ public class UserMapper {
 					.age(user.getAge())
 					.email(user.getEmail())
 					.build();
-			List<AccountDO> accountDOList =  isNull(user.getAccounts())? new ArrayList<>() : accountMapper.accountDTOtoDO(user.getAccounts());
-	
+			
+			List<AccountDO> accountDOList =  isNull(user.getAccounts())? new ArrayList<>() :user.getAccounts().stream()
+																							.map(u->accountMapper.accountDTOtoDO(u))
+																							.collect(Collectors.toList());
 			userDO.setAccounts(accountDOList);
-			userDOList.add(userDO);
-		}
-		return userDOList;	
+			return userDO;	
 	}
 }
