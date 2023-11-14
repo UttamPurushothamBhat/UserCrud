@@ -1,13 +1,13 @@
 package com.uttam.project.service;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uttam.project.DTO.Account;
+import com.uttam.project.dto.Account;
 import com.uttam.project.exception.UserNotFoundException;
+import com.uttam.project.exception.ValidationException;
 import com.uttam.project.mapper.AccountMapper;
 import com.uttam.project.model.AccountDO;
 import com.uttam.project.model.UserDO;
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 		Optional<UserDO> userDO = userRepository.findById(userId);
 		
 		if(userDO.isEmpty()) {
-			throw new UserNotFoundException("no user by id "+ userId);
+			throw new ValidationException("no user by id "+ userId);
 		}
 		
 		AccountDO accountDO = accountMapper.accountDTOtoDO(account);

@@ -1,6 +1,5 @@
 package com.uttam.project.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uttam.project.DTO.User;
+import com.uttam.project.dto.User;
 import com.uttam.project.exception.UserNotFoundException;
 import com.uttam.project.mapper.UserMapper;
 import com.uttam.project.model.AccountDO;

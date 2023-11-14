@@ -8,8 +8,8 @@ import static java.util.Objects.isNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.uttam.project.DTO.Account;
-import com.uttam.project.DTO.User;
+import com.uttam.project.dto.Account;
+import com.uttam.project.dto.User;
 import com.uttam.project.model.AccountDO;
 import com.uttam.project.model.UserDO;
 
