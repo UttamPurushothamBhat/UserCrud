@@ -2,7 +2,7 @@ package com.uttam.project.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.uttam.project.DTO.Account;
+import com.uttam.project.dto.Account;
 import com.uttam.project.model.AccountDO;
 
 @Component

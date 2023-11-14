@@ -1,4 +1,4 @@
-package com.uttam.project.DTO;
+package com.uttam.project.dto;
 
 import java.util.List;
 
