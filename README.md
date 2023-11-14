@@ -1,6 +1,6 @@
 # UserCrud
 
-Starter Springboot project. 
+Starter Springboot project. Runs on docker 
 This project implements REST APIs using the MVC model.  controller-service-dao; connects to MySql Db. 
 Has implemented JPA Methods, nativeQueries to run queries. Logging, actuator, and exception handling are in place. 
 
